@@ -48,10 +48,10 @@ export default function ComponentPage() {
 
       {/* Topbar */}
       <header
-        className="sticky top-0 z-20 flex items-center gap-4 px-10 h-16"
+        className="sticky top-0 z-20 flex items-center gap-2 sm:gap-4 px-4 sm:px-10 h-16"
         style={{ background: '#141417', borderBottom: '1px solid #2A2A2E' }}
       >
-        <Link to="/" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5 shrink-0">
           <span
             className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
             style={{ background: 'linear-gradient(135deg, #FF5C00 0%, #FF8A4C 100%)' }}
@@ -59,18 +59,18 @@ export default function ComponentPage() {
             i
           </span>
           <span
-            className="text-white font-semibold text-xl tracking-normal"
+            className="hidden sm:block text-white font-semibold text-xl tracking-normal"
             style={{ fontFamily: 'DM Mono, monospace' }}
           >
             Alex Component Library
           </span>
         </Link>
 
-        <span className="mx-2" style={{ color: '#2A2A2E' }}>|</span>
+        <span className="hidden sm:block mx-2" style={{ color: '#2A2A2E' }}>|</span>
 
         <Link
           to="/"
-          className="flex items-center gap-1.5 text-sm transition-colors"
+          className="flex items-center gap-1.5 text-sm transition-colors shrink-0"
           style={{ color: '#6B6B70' }}
           onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
           onMouseLeave={(e) => (e.currentTarget.style.color = '#6B6B70')}
@@ -80,11 +80,11 @@ export default function ComponentPage() {
 
         <span style={{ color: '#2A2A2E' }}>/</span>
 
-        <span className="text-sm" style={{ color: '#8B8B90' }}>{component.title}</span>
+        <span className="text-sm truncate min-w-0" style={{ color: '#8B8B90' }}>{component.title}</span>
       </header>
 
       {/* Content */}
-      <div className="px-10 py-8 space-y-8">
+      <div className="px-4 sm:px-10 py-6 sm:py-8 space-y-6 sm:space-y-8">
 
         {/* Page Title & Meta */}
         <div>
@@ -138,7 +138,7 @@ export default function ComponentPage() {
             </span>
             <div className="w-14" />
           </div>
-          <div className="h-[680px]" style={{ background: '#111113' }}>
+          <div className="h-[400px] sm:h-[680px]" style={{ background: '#111113' }}>
             <iframe
               srcDoc={component.preview_html}
               className="w-full h-full"
@@ -148,7 +148,7 @@ export default function ComponentPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={handleDownload}
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-90"

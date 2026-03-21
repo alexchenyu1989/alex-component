@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom'
-import { LayoutGrid, Tag, FolderOpen, LogOut, ExternalLink, Settings } from 'lucide-react'
+import { LayoutGrid, Tag, FolderOpen, LogOut, ExternalLink, Menu, X } from 'lucide-react'
 import api from '@/lib/axios'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
   const [admin, setAdmin] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     api.get('/admin/me').then((res) => setAdmin(res.data)).catch(() => navigate('/admin/login'))
@@ -30,8 +31,21 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen flex bg-[#0A0A0B] text-white" style={{ colorScheme: 'dark' }}>
 
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-[260px] shrink-0 flex flex-col bg-[#141417] border-r border-[#2A2A2E]">
+      <aside className={`
+        fixed inset-y-0 left-0 z-40 w-[260px] shrink-0 flex flex-col bg-[#141417] border-r border-[#2A2A2E]
+        transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:static lg:translate-x-0
+      `}>
 
         {/* Logo */}
         <div className="px-6 py-7 flex items-center gap-2.5 border-b border-[#1F1F23]">
@@ -40,18 +54,24 @@ export default function AdminLayout() {
             <span className="text-white font-bold text-sm">i</span>
           </div>
           <span className="font-mono font-semibold text-xl tracking-[4px] text-white">ADMIN</span>
+          <button
+            className="ml-auto lg:hidden text-[#6B6B70] hover:text-white transition-colors"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X size={18} />
+          </button>
         </div>
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
           <p className="text-[11px] font-semibold text-[#6B6B70] tracking-widest uppercase px-3 mb-1">主選單</p>
-          <NavLink to="/admin/components" className={navClass}>
+          <NavLink to="/admin/components" className={navClass} onClick={() => setSidebarOpen(false)}>
             {({ isActive }) => (<><LayoutGrid size={18} className={navIconClass(isActive)} /> 元件管理</>)}
           </NavLink>
-          <NavLink to="/admin/categories" className={navClass}>
+          <NavLink to="/admin/categories" className={navClass} onClick={() => setSidebarOpen(false)}>
             {({ isActive }) => (<><FolderOpen size={18} className={navIconClass(isActive)} /> 分類管理</>)}
           </NavLink>
-          <NavLink to="/admin/tags" className={navClass}>
+          <NavLink to="/admin/tags" className={navClass} onClick={() => setSidebarOpen(false)}>
             {({ isActive }) => (<><Tag size={18} className={navIconClass(isActive)} /> 標籤管理</>)}
           </NavLink>
         </nav>
@@ -78,12 +98,22 @@ export default function AdminLayout() {
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Topbar */}
-        <header className="h-16 flex items-center justify-between px-10 bg-[#141417] border-b border-[#2A2A2E] shrink-0">
-          <div />
+        <header className="h-16 flex items-center justify-between px-4 lg:px-10 bg-[#141417] border-b border-[#2A2A2E] shrink-0">
+          <button
+            className="lg:hidden text-[#8B8B90] hover:text-white transition-colors p-1 -ml-1"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu size={22} />
+          </button>
+          <div className="hidden lg:block" />
           <div className="flex items-center gap-3">
-            <Link to="/" target="_blank" className="flex items-center gap-1.5 px-3.5 h-9 rounded-lg text-sm font-medium text-[#8B8B90] hover:text-white border border-[#2A2A2E] hover:border-[#3A3A3E] hover:bg-white/5 transition-all">
+            <Link
+              to="/"
+              target="_blank"
+              className="flex items-center gap-1.5 px-3.5 h-9 rounded-lg text-sm font-medium text-[#8B8B90] hover:text-white border border-[#2A2A2E] hover:border-[#3A3A3E] hover:bg-white/5 transition-all"
+            >
               <ExternalLink size={15} />
-              前台預覽
+              <span className="hidden sm:inline">前台預覽</span>
             </Link>
             <div className="w-9 h-9 rounded-full flex items-center justify-center"
               style={{ background: 'linear-gradient(135deg, #FF5C00 0%, #FF8A4C 100%)' }}>
@@ -94,7 +124,7 @@ export default function AdminLayout() {
 
         {/* Content */}
         <main className="flex-1 overflow-auto">
-          <div className="px-10 py-8">
+          <div className="px-4 lg:px-10 py-6 lg:py-8">
             <Outlet />
           </div>
         </main>

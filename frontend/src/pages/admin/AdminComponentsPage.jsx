@@ -33,17 +33,17 @@ export default function AdminComponentsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
         <div>
           <h2 className="text-xl font-semibold text-white">元件管理</h2>
           <p className="text-sm text-[#6B6B70] mt-0.5">管理所有 UI 特效元件</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Category Filter */}
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="h-8 px-3 text-sm rounded-lg outline-none"
+            className="h-8 px-3 text-sm rounded-lg outline-none flex-1 sm:flex-none"
             style={{ background: '#141417', border: '1px solid #1F1F23', color: selectedCategory ? '#FFFFFF' : '#6B6B70' }}
           >
             <option value="">全部分類</option>
@@ -83,8 +83,8 @@ export default function AdminComponentsPage() {
 
       {/* Table View */}
       {viewMode === 'table' && (
-        <div className="bg-[#141417] border border-[#1F1F23] rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-[#141417] border border-[#1F1F23] rounded-xl overflow-hidden overflow-x-auto">
+          <table className="w-full text-sm min-w-[600px]">
             <thead>
               <tr className="bg-[#111113] border-b border-[#1F1F23]">
                 <th className="text-left text-xs font-semibold text-[#6B6B70] uppercase tracking-wider px-5 py-3.5">標題</th>
@@ -157,7 +157,7 @@ export default function AdminComponentsPage() {
       {/* Grid View */}
       {viewMode === 'grid' && (
         loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="rounded-xl h-64 animate-pulse" style={{ background: '#141417', border: '1px solid #1F1F23' }} />
             ))}
@@ -167,7 +167,7 @@ export default function AdminComponentsPage() {
             <p className="text-sm" style={{ color: '#6B6B70' }}>尚無元件，點擊右上角新增</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {components.map((comp) => (
               <Link
                 key={comp.id}
