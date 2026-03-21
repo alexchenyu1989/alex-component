@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer create-project:*)",
+      "Bash(php --version)",
+      "Bash(composer --version)",
+      "Bash(npm --version)",
+      "Bash(ls /c/php*)",
+      "Read(//c/xampp/**)",
+      "Read(//c/laragon/bin/**)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(find /c/Users/User/Desktop/ibest-dev -type f \\\\\\(-name routes -o -name api.php -o -name web.php \\\\\\) -not -path */node_modules/* -not -path */vendor/*)",
+      "Bash(find /c/Users/User/Desktop/ibest-dev/backend -type f -name cors.php -o -name *.php -path */config/*)",
+      "Bash(find /c/Users/User/Desktop/ibest-dev/backend -type f -name migration* -o -name *migration* -not -path */vendor/*)",
+      "Bash(find /c/Users/User/Desktop/ibest-dev/backend -type f -name *.php -path */Models/* -not -path */vendor/*)"
+    ]
+  }
+}
