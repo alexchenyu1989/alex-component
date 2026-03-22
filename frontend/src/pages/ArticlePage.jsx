@@ -53,11 +53,9 @@ export default function ArticlePage() {
           </div>
         ) : article ? (
           <>
-            {/* Hero Header Block */}
-            <div
-              className="w-full px-6 sm:px-12 pt-10 pb-10"
-              style={{ borderBottom: '1px solid #1F1F23' }}
-            >
+            {/* Article Header */}
+            <div className="w-full px-6 sm:px-14 pt-10 pb-0">
+
               {/* Breadcrumb */}
               <div className="flex items-center gap-1.5 mb-8" style={{ fontSize: '12px', color: '#4A4A50' }}>
                 <Link to="/articles" className="hover:text-[#8B8B90] transition-colors">文章</Link>
@@ -71,39 +69,52 @@ export default function ArticlePage() {
                 <span className="truncate max-w-xs" style={{ color: '#6B6B70' }}>{article.title}</span>
               </div>
 
-              {/* Category + Meta row */}
-              <div className="flex items-center gap-3 mb-5">
+              {/* Date + Category row */}
+              <div className="flex items-center justify-between gap-4 py-3" style={{ borderTop: '1px solid #1F1F23', borderBottom: '1px solid #1F1F23' }}>
+                {/* Date */}
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className="font-semibold tracking-widest uppercase"
+                    style={{ fontSize: '10px', color: '#4A4A50', letterSpacing: '0.15em' }}
+                  >
+                    DATE
+                  </span>
+                  <span className="font-bold text-white" style={{ fontSize: '28px', lineHeight: 1, letterSpacing: '-0.02em' }}>
+                    {String(new Date(article.created_at).getDate()).padStart(2, '0')}
+                  </span>
+                  <span style={{ fontSize: '13px', color: '#6B6B70' }}>
+                    / {new Date(article.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                  </span>
+                </div>
+
+                {/* Category */}
                 {article.category && (
                   <span
-                    className="inline-flex items-center px-3 py-1 rounded-full font-semibold tracking-wide"
-                    style={{ background: '#FF5C0018', color: '#FF5C00', fontSize: '11px', letterSpacing: '0.06em' }}
+                    className="inline-flex items-center px-4 py-1.5 rounded font-semibold tracking-wide shrink-0"
+                    style={{ background: '#FF5C00', color: '#fff', fontSize: '12px', letterSpacing: '0.04em' }}
                   >
                     {article.category.name}
                   </span>
                 )}
-                <span style={{ color: '#2A2A2E', fontSize: '12px' }}>·</span>
-                <span style={{ fontSize: '12px', color: '#4A4A50' }}>
-                  {new Date(article.created_at).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </span>
               </div>
 
               {/* Title */}
-              <h1
-                className="font-bold text-white leading-tight tracking-tight"
-                style={{ fontSize: 'clamp(22px, 3vw, 36px)', maxWidth: '820px', letterSpacing: '-0.01em' }}
-              >
-                {article.title}
-              </h1>
-
-              {/* Excerpt */}
-              {article.excerpt && (
-                <p
-                  className="mt-4 leading-relaxed"
-                  style={{ fontSize: '15px', color: '#8B8B90', maxWidth: '680px', lineHeight: '1.75' }}
+              <div className="py-6" style={{ borderBottom: '1px solid #1F1F23' }}>
+                <h1
+                  className="font-bold text-white leading-tight"
+                  style={{ fontSize: 'clamp(20px, 2.5vw, 32px)', letterSpacing: '-0.01em' }}
                 >
-                  {article.excerpt}
-                </p>
-              )}
+                  {article.title}
+                </h1>
+                {article.excerpt && (
+                  <p
+                    className="mt-3 leading-relaxed"
+                    style={{ fontSize: '14px', color: '#8B8B90', lineHeight: '1.75' }}
+                  >
+                    {article.excerpt}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Content */}
