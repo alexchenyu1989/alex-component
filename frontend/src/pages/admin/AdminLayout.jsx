@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom'
-import { LayoutGrid, Tag, FolderOpen, LogOut, ExternalLink, Menu, X } from 'lucide-react'
+import { LayoutGrid, Tag, FolderOpen, LogOut, ExternalLink, Menu, X, BookOpen, BookMarked } from 'lucide-react'
 import api from '@/lib/axios'
 
 export default function AdminLayout() {
@@ -63,8 +63,8 @@ export default function AdminLayout() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
-          <p className="text-[11px] font-semibold text-[#6B6B70] tracking-widest uppercase px-3 mb-1">主選單</p>
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-1 overflow-y-auto">
+          <p className="text-[11px] font-semibold text-[#6B6B70] tracking-widest uppercase px-3 mb-1">元件</p>
           <NavLink to="/admin/components" className={navClass} onClick={() => setSidebarOpen(false)}>
             {({ isActive }) => (<><LayoutGrid size={18} className={navIconClass(isActive)} /> 元件管理</>)}
           </NavLink>
@@ -73,6 +73,14 @@ export default function AdminLayout() {
           </NavLink>
           <NavLink to="/admin/tags" className={navClass} onClick={() => setSidebarOpen(false)}>
             {({ isActive }) => (<><Tag size={18} className={navIconClass(isActive)} /> 標籤管理</>)}
+          </NavLink>
+
+          <p className="text-[11px] font-semibold text-[#6B6B70] tracking-widest uppercase px-3 mt-4 mb-1">文章</p>
+          <NavLink to="/admin/articles" className={navClass} onClick={() => setSidebarOpen(false)}>
+            {({ isActive }) => (<><BookOpen size={18} className={navIconClass(isActive)} /> 文章管理</>)}
+          </NavLink>
+          <NavLink to="/admin/article-categories" className={navClass} onClick={() => setSidebarOpen(false)}>
+            {({ isActive }) => (<><BookMarked size={18} className={navIconClass(isActive)} /> 文章分類</>)}
           </NavLink>
         </nav>
 

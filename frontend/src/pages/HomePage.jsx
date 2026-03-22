@@ -82,6 +82,12 @@ export default function HomePage() {
           />
         </form> */}
 
+        {/* Nav */}
+        <nav className="flex items-center gap-1 ml-4">
+          <Link to="/" className="px-3 py-1.5 text-sm text-white bg-white/8 rounded-lg">元件</Link>
+          <Link to="/articles" className="px-3 py-1.5 text-sm text-[#6B6B70] hover:text-white transition-colors rounded-lg">文章</Link>
+        </nav>
+
         {/* Right */}
         <div className="flex items-center gap-2 shrink-0 ml-auto">
           {/* Filter button - mobile only */}
