@@ -54,10 +54,10 @@ export default function ArticlePage() {
         ) : article ? (
           <>
             {/* Article Header */}
-            <div className="w-full px-6 sm:px-14 pt-10 pb-0">
+            <div className="w-full px-6 sm:px-14">
 
               {/* Breadcrumb */}
-              <div className="flex items-center gap-1.5 mb-8" style={{ fontSize: '12px', color: '#4A4A50' }}>
+              <div className="flex items-center gap-1.5 py-4" style={{ fontSize: '12px', color: '#4A4A50', borderBottom: '1px solid #1F1F23' }}>
                 <Link to="/articles" className="hover:text-[#8B8B90] transition-colors">文章</Link>
                 <span style={{ color: '#2A2A2E' }}>›</span>
                 {article.category && (
@@ -66,20 +66,20 @@ export default function ArticlePage() {
                     <span style={{ color: '#2A2A2E' }}>›</span>
                   </>
                 )}
-                <span className="truncate max-w-xs" style={{ color: '#6B6B70' }}>{article.title}</span>
+                <span className="truncate" style={{ color: '#6B6B70' }}>{article.title}</span>
               </div>
 
               {/* Date + Category row */}
-              <div className="flex items-center justify-between gap-4 py-3" style={{ borderTop: '1px solid #1F1F23', borderBottom: '1px solid #1F1F23' }}>
+              <div className="flex items-center justify-between gap-4" style={{ padding: '14px 0', borderBottom: '1px solid #1F1F23' }}>
                 {/* Date */}
                 <div className="flex items-baseline gap-2">
                   <span
-                    className="font-semibold tracking-widest uppercase"
+                    className="font-semibold uppercase"
                     style={{ fontSize: '10px', color: '#4A4A50', letterSpacing: '0.15em' }}
                   >
                     DATE
                   </span>
-                  <span className="font-bold text-white" style={{ fontSize: '28px', lineHeight: 1, letterSpacing: '-0.02em' }}>
+                  <span className="font-bold text-white" style={{ fontSize: '26px', lineHeight: 1, letterSpacing: '-0.02em' }}>
                     {String(new Date(article.created_at).getDate()).padStart(2, '0')}
                   </span>
                   <span style={{ fontSize: '13px', color: '#6B6B70' }}>
@@ -90,19 +90,19 @@ export default function ArticlePage() {
                 {/* Category */}
                 {article.category && (
                   <span
-                    className="inline-flex items-center px-4 py-1.5 rounded font-semibold tracking-wide shrink-0"
-                    style={{ background: '#FF5C00', color: '#fff', fontSize: '12px', letterSpacing: '0.04em' }}
+                    className="inline-flex items-center px-4 py-1.5 rounded-md font-semibold shrink-0"
+                    style={{ background: '#FF5C00', color: '#fff', fontSize: '13px', letterSpacing: '0.02em' }}
                   >
                     {article.category.name}
                   </span>
                 )}
               </div>
 
-              {/* Title */}
-              <div className="py-6" style={{ borderBottom: '1px solid #1F1F23' }}>
+              {/* Title + Excerpt */}
+              <div style={{ padding: '28px 0 32px' }}>
                 <h1
                   className="font-bold text-white leading-tight"
-                  style={{ fontSize: 'clamp(20px, 2.5vw, 32px)', letterSpacing: '-0.01em' }}
+                  style={{ fontSize: 'clamp(20px, 2.5vw, 30px)', letterSpacing: '-0.01em' }}
                 >
                   {article.title}
                 </h1>
