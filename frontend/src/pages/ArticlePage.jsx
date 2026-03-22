@@ -90,8 +90,8 @@ export default function ArticlePage() {
                 {/* Category */}
                 {article.category && (
                   <span
-                    className="inline-flex items-center px-4 py-1.5 rounded-md font-semibold shrink-0"
-                    style={{ background: '#FF5C00', color: '#fff', fontSize: '13px', letterSpacing: '0.02em' }}
+                    className="inline-flex items-center rounded-md font-semibold shrink-0"
+                    style={{ background: '#FF5C00', color: '#fff', padding: '7px 20px', fontSize: '15px', letterSpacing: '0.02em' }}
                   >
                     {article.category.name}
                   </span>
