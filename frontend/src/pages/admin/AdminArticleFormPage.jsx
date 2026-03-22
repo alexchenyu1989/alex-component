@@ -28,8 +28,8 @@ function ToolbarButton({ onClick, active, title, children }) {
   )
 }
 
-function EditorToolbar({ editor, onImageUpload }) {
-  if (!editor) return null
+function EditorToolbar({ editor, onImageUpload, sourceMode, onToggleSource }) {
+  if (!editor && !sourceMode) return null
 
   const setLink = () => {
     const url = window.prompt('輸入連結 URL')
@@ -60,6 +60,8 @@ function EditorToolbar({ editor, onImageUpload }) {
       <div className="w-px h-4 bg-[#2A2A2E] mx-1" />
       <ToolbarButton onClick={() => editor.chain().focus().undo().run()} active={false} title="復原">↩</ToolbarButton>
       <ToolbarButton onClick={() => editor.chain().focus().redo().run()} active={false} title="重做">↪</ToolbarButton>
+      <div className="w-px h-4 bg-[#2A2A2E] mx-1" />
+      <ToolbarButton onClick={onToggleSource} active={sourceMode} title="原始碼">{'</>'}</ToolbarButton>
     </div>
   )
 }
@@ -80,6 +82,8 @@ export default function AdminArticleFormPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [imageUploading, setImageUploading] = useState(false)
+  const [sourceMode, setSourceMode] = useState(false)
+  const [sourceHtml, setSourceHtml] = useState('')
 
   const editor = useEditor({
     extensions: [
@@ -145,6 +149,17 @@ export default function AdminArticleFormPage() {
     input.click()
   }, [editor])
 
+  const toggleSourceMode = () => {
+    if (!sourceMode) {
+      // 切換到原始碼模式：把編輯器內容放到 textarea
+      setSourceHtml(editor?.getHTML() || '')
+    } else {
+      // 切換回編輯器：把 textarea 內容同步回編輯器
+      editor?.commands.setContent(sourceHtml)
+    }
+    setSourceMode((prev) => !prev)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -152,7 +167,7 @@ export default function AdminArticleFormPage() {
     try {
       const payload = {
         ...form,
-        content: editor?.getHTML() || '',
+        content: sourceMode ? sourceHtml : (editor?.getHTML() || ''),
         article_category_id: form.article_category_id || null,
       }
       if (isEdit) {
@@ -220,11 +235,26 @@ export default function AdminArticleFormPage() {
               className="rounded-lg overflow-hidden"
               style={{ border: '1px solid #2A2A2E', background: '#1A1A1D' }}
             >
-              <EditorToolbar editor={editor} onImageUpload={handleImageUpload} />
-              <EditorContent
+              <EditorToolbar
                 editor={editor}
-                className="text-white text-sm"
+                onImageUpload={handleImageUpload}
+                sourceMode={sourceMode}
+                onToggleSource={toggleSourceMode}
               />
+              {sourceMode ? (
+                <textarea
+                  value={sourceHtml}
+                  onChange={(e) => setSourceHtml(e.target.value)}
+                  className="w-full outline-none text-xs font-mono px-5 py-4 resize-y"
+                  style={{ background: '#1A1A1D', color: '#C0C0C5', minHeight: '320px' }}
+                  spellCheck={false}
+                />
+              ) : (
+                <EditorContent
+                  editor={editor}
+                  className="text-white text-sm"
+                />
+              )}
             </div>
           </section>
         </div>
