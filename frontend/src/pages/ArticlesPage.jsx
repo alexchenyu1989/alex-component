@@ -59,8 +59,8 @@ export default function ArticlesPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-10">
         {/* Page Title */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white">文章</h1>
-          <p className="text-sm text-[#6B6B70] mt-1">教學資源與技術分享</p>
+          <h1 className="font-bold text-white" style={{ fontSize: '20px' }}>文章</h1>
+          <p className="text-[#6B6B70] mt-1" style={{ fontSize: '15px' }}>教學資源與技術分享</p>
         </div>
 
         {/* Category Filter */}
@@ -178,10 +178,10 @@ function ArticleCard({ article }) {
           </p>
         )}
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-[10px] text-[#4A4A50]">
+          <span className="text-[#4A4A50]" style={{ fontSize: '14px' }}>
             {new Date(article.created_at).toLocaleDateString('zh-TW')}
           </span>
-          <span className="text-[10px] text-[#FF5C00] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="text-[#FF5C00] font-medium opacity-0 group-hover:opacity-100 transition-opacity" style={{ fontSize: '14px' }}>
             閱讀文章 →
           </span>
         </div>
