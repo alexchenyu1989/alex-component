@@ -43,55 +43,76 @@ export default function ArticlePage() {
         </nav>
       </header>
 
-      <div className="w-full px-4 sm:px-8 py-10">
+      <div className="w-full">
         {loading ? (
-          <div className="space-y-4">
-            <div className="h-8 w-2/3 rounded-lg animate-pulse" style={{ background: '#141417' }} />
-            <div className="h-4 w-1/3 rounded animate-pulse" style={{ background: '#141417' }} />
+          <div className="px-6 sm:px-12 py-10 space-y-4">
+            <div className="h-3 w-48 rounded-full animate-pulse" style={{ background: '#141417' }} />
+            <div className="h-8 w-2/3 rounded-lg animate-pulse mt-6" style={{ background: '#141417' }} />
+            <div className="h-4 w-1/2 rounded animate-pulse" style={{ background: '#141417' }} />
             <div className="h-96 rounded-xl animate-pulse mt-8" style={{ background: '#141417' }} />
           </div>
         ) : article ? (
           <>
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-xs text-[#6B6B70] mb-6">
-              <Link to="/articles" className="hover:text-white transition-colors">文章</Link>
-              <span>/</span>
-              {article.category && (
-                <>
-                  <span>{article.category.name}</span>
-                  <span>/</span>
-                </>
-              )}
-              <span className="text-[#8B8B90] truncate">{article.title}</span>
-            </div>
+            {/* Hero Header Block */}
+            <div
+              className="w-full px-6 sm:px-12 pt-10 pb-10"
+              style={{ borderBottom: '1px solid #1F1F23' }}
+            >
+              {/* Breadcrumb */}
+              <div className="flex items-center gap-1.5 mb-8" style={{ fontSize: '12px', color: '#4A4A50' }}>
+                <Link to="/articles" className="hover:text-[#8B8B90] transition-colors">文章</Link>
+                <span style={{ color: '#2A2A2E' }}>›</span>
+                {article.category && (
+                  <>
+                    <span style={{ color: '#6B6B70' }}>{article.category.name}</span>
+                    <span style={{ color: '#2A2A2E' }}>›</span>
+                  </>
+                )}
+                <span className="truncate max-w-xs" style={{ color: '#6B6B70' }}>{article.title}</span>
+              </div>
 
-            {/* Header */}
-            <div className="mb-8">
-              {article.category && (
-                <span
-                  className="inline-block text-xs px-2.5 py-1 rounded-full font-medium mb-3"
-                  style={{ background: '#FF5C0015', color: '#FF5C00' }}
-                >
-                  {article.category.name}
+              {/* Category + Meta row */}
+              <div className="flex items-center gap-3 mb-5">
+                {article.category && (
+                  <span
+                    className="inline-flex items-center px-3 py-1 rounded-full font-semibold tracking-wide"
+                    style={{ background: '#FF5C0018', color: '#FF5C00', fontSize: '11px', letterSpacing: '0.06em' }}
+                  >
+                    {article.category.name}
+                  </span>
+                )}
+                <span style={{ color: '#2A2A2E', fontSize: '12px' }}>·</span>
+                <span style={{ fontSize: '12px', color: '#4A4A50' }}>
+                  {new Date(article.created_at).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
-              )}
-              <h1 className="text-2xl sm:text-3xl font-bold text-white leading-snug">{article.title}</h1>
-              {article.excerpt && (
-                <p className="text-[#6B6B70] mt-3 text-base leading-relaxed">{article.excerpt}</p>
-              )}
-              <p className="text-xs text-[#6B6B70] mt-3">
-                {new Date(article.created_at).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </p>
-            </div>
+              </div>
 
-            {/* Divider */}
-            <div className="border-t border-[#1F1F23] mb-8" />
+              {/* Title */}
+              <h1
+                className="font-bold text-white leading-tight tracking-tight"
+                style={{ fontSize: 'clamp(22px, 3vw, 36px)', maxWidth: '820px', letterSpacing: '-0.01em' }}
+              >
+                {article.title}
+              </h1>
+
+              {/* Excerpt */}
+              {article.excerpt && (
+                <p
+                  className="mt-4 leading-relaxed"
+                  style={{ fontSize: '15px', color: '#8B8B90', maxWidth: '680px', lineHeight: '1.75' }}
+                >
+                  {article.excerpt}
+                </p>
+              )}
+            </div>
 
             {/* Content */}
-            <div
-              className="article-content prose-dark"
-              dangerouslySetInnerHTML={{ __html: article.content }}
-            />
+            <div className="px-6 sm:px-12 py-10">
+              <div
+                className="article-content prose-dark"
+                dangerouslySetInnerHTML={{ __html: article.content }}
+              />
+            </div>
           </>
         ) : null}
       </div>
