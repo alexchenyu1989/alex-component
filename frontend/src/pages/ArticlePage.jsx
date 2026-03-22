@@ -43,7 +43,7 @@ export default function ArticlePage() {
         </nav>
       </header>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-8 py-10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-10">
         {loading ? (
           <div className="space-y-4">
             <div className="h-8 w-2/3 rounded-lg animate-pulse" style={{ background: '#141417' }} />
