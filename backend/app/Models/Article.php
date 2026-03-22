@@ -11,6 +11,7 @@ class Article extends Model
         'slug',
         'excerpt',
         'cover_image',
+        'images',
         'content',
         'article_category_id',
         'is_published',
@@ -20,6 +21,7 @@ class Article extends Model
     protected $casts = [
         'is_published' => 'boolean',
         'sort_order'   => 'integer',
+        'images'       => 'array',
     ];
 
     public function category()

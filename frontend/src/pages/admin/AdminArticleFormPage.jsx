@@ -44,6 +44,7 @@ export default function AdminArticleFormPage() {
           sort_order: article.sort_order ?? 0,
           cover_image: article.cover_image || '',
         })
+        setImages(Array.isArray(article.images) ? article.images : [])
       })
     }
   }, [id, isEdit])
@@ -115,7 +116,7 @@ export default function AdminArticleFormPage() {
     setLoading(true)
     setError('')
     try {
-      const payload = { ...form, article_category_id: form.article_category_id || null }
+      const payload = { ...form, article_category_id: form.article_category_id || null, images }
       if (isEdit) {
         await api.put(`/admin/articles/${id}`, payload)
       } else {
