@@ -56,7 +56,7 @@ export default function ArticlesPage() {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-10">
         {/* Page Title */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white">文章</h1>
@@ -92,50 +92,100 @@ export default function ArticlesPage() {
           </div>
         )}
 
-        {/* Articles List */}
+        {/* Articles Grid */}
         {loading ? (
-          <div className="space-y-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-28 rounded-xl animate-pulse" style={{ background: '#141417' }} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="rounded-2xl overflow-hidden animate-pulse" style={{ background: '#141417' }}>
+                <div className="h-44 w-full" style={{ background: '#1F1F23' }} />
+                <div className="p-5 space-y-3">
+                  <div className="h-3 w-16 rounded-full" style={{ background: '#1F1F23' }} />
+                  <div className="h-4 w-4/5 rounded" style={{ background: '#1F1F23' }} />
+                  <div className="h-3 w-full rounded" style={{ background: '#1F1F23' }} />
+                  <div className="h-3 w-2/3 rounded" style={{ background: '#1F1F23' }} />
+                </div>
+              </div>
             ))}
           </div>
         ) : articles.length === 0 ? (
           <div className="text-center py-24 text-[#6B6B70] text-sm">目前尚無文章</div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {articles.map((article) => (
-              <Link
-                key={article.id}
-                to={`/articles/${article.slug}`}
-                className="block rounded-xl p-5 transition-colors"
-                style={{ background: '#141417', border: '1px solid #1F1F23' }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#3A3A3E')}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#1F1F23')}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    {article.category && (
-                      <span
-                        className="inline-block text-[10px] px-2 py-0.5 rounded-full font-medium mb-2"
-                        style={{ background: '#FF5C0015', color: '#FF5C00' }}
-                      >
-                        {article.category.name}
-                      </span>
-                    )}
-                    <h2 className="text-base font-semibold text-white leading-snug">{article.title}</h2>
-                    {article.excerpt && (
-                      <p className="text-sm text-[#6B6B70] mt-1.5 line-clamp-2">{article.excerpt}</p>
-                    )}
-                  </div>
-                  <span className="text-xs text-[#6B6B70] shrink-0 mt-1">
-                    {new Date(article.created_at).toLocaleDateString('zh-TW')}
-                  </span>
-                </div>
-              </Link>
+              <ArticleCard key={article.id} article={article} />
             ))}
           </div>
         )}
       </div>
     </div>
+  )
+}
+
+function ArticleCard({ article }) {
+  return (
+    <Link
+      to={`/articles/${article.slug}`}
+      className="group flex flex-col rounded-2xl overflow-hidden transition-all duration-200"
+      style={{ background: '#141417', border: '1px solid #1F1F23' }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = '#3A3A3E'
+        e.currentTarget.style.transform = 'translateY(-2px)'
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.4)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = '#1F1F23'
+        e.currentTarget.style.transform = 'translateY(0)'
+        e.currentTarget.style.boxShadow = 'none'
+      }}
+    >
+      {/* Cover Image */}
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9', background: '#1A1A1D' }}>
+        {article.cover_image ? (
+          <img
+            src={article.cover_image}
+            alt={article.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #1A1A1D 0%, #141417 100%)' }}
+          >
+            <span className="text-3xl font-bold select-none" style={{ color: '#2A2A2E' }}>
+              {article.title.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
+        {/* Category badge overlay */}
+        {article.category && (
+          <span
+            className="absolute top-3 left-3 text-[10px] px-2 py-0.5 rounded-full font-semibold"
+            style={{ background: '#FF5C00', color: '#fff' }}
+          >
+            {article.category.name}
+          </span>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-5">
+        <h2 className="text-sm font-semibold text-white leading-snug line-clamp-2 group-hover:text-[#FF8A4C] transition-colors">
+          {article.title}
+        </h2>
+        {article.excerpt && (
+          <p className="text-xs text-[#6B6B70] mt-2 line-clamp-2 leading-relaxed flex-1">
+            {article.excerpt}
+          </p>
+        )}
+        <div className="mt-4 flex items-center justify-between">
+          <span className="text-[10px] text-[#4A4A50]">
+            {new Date(article.created_at).toLocaleDateString('zh-TW')}
+          </span>
+          <span className="text-[10px] text-[#FF5C00] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+            閱讀文章 →
+          </span>
+        </div>
+      </div>
+    </Link>
   )
 }

@@ -10,6 +10,7 @@ class Article extends Model
         'title',
         'slug',
         'excerpt',
+        'cover_image',
         'content',
         'article_category_id',
         'is_published',

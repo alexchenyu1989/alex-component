@@ -19,11 +19,13 @@ export default function AdminArticleFormPage() {
     article_category_id: '',
     is_published: true,
     sort_order: 0,
+    cover_image: '',
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [images, setImages] = useState([])      // 已上傳的圖片 URL 清單
   const [uploading, setUploading] = useState(false)
+  const [uploadingCover, setUploadingCover] = useState(false)
   const [copiedUrl, setCopiedUrl] = useState('')
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function AdminArticleFormPage() {
           article_category_id: article.article_category_id ? String(article.article_category_id) : '',
           is_published: article.is_published,
           sort_order: article.sort_order ?? 0,
+          cover_image: article.cover_image || '',
         })
       })
     }
@@ -67,6 +70,32 @@ export default function AdminArticleFormPage() {
       alert('圖片上傳失敗')
     } finally {
       setUploading(false)
+      e.target.value = ''
+    }
+  }
+
+  const handleUploadCover = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
+      alert('請先設定 Cloudinary 環境變數')
+      return
+    }
+    setUploadingCover(true)
+    try {
+      const data = new FormData()
+      data.append('file', file)
+      data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: data,
+      })
+      const json = await res.json()
+      setForm((prev) => ({ ...prev, cover_image: json.secure_url }))
+    } catch {
+      alert('封面圖上傳失敗')
+    } finally {
+      setUploadingCover(false)
       e.target.value = ''
     }
   }
@@ -225,6 +254,48 @@ export default function AdminArticleFormPage() {
 
         {/* Sidebar */}
         <aside className="space-y-5 self-start xl:sticky xl:top-6">
+
+          {/* 封面圖 */}
+          <section className={`${panelClass} space-y-3`}>
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#6B6B70]">封面圖</p>
+              <label className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-white rounded-lg cursor-pointer transition-opacity hover:opacity-90"
+                style={{ background: 'linear-gradient(135deg, #FF5C00 0%, #FF8A4C 100%)' }}>
+                <ImagePlus size={12} />
+                {uploadingCover ? '上傳中...' : '上傳封面'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleUploadCover}
+                  disabled={uploadingCover}
+                />
+              </label>
+            </div>
+            {form.cover_image ? (
+              <div className="relative group rounded-lg overflow-hidden" style={{ border: '1px solid #2A2A2E' }}>
+                <img src={form.cover_image} alt="封面圖" className="w-full object-cover" style={{ maxHeight: '160px' }} />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setForm((prev) => ({ ...prev, cover_image: '' }))}
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-white bg-red-500/80 hover:bg-red-500 transition-colors"
+                  >
+                    <Trash2 size={12} />
+                    移除封面
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div
+                className="rounded-lg flex items-center justify-center py-8 text-xs text-[#6B6B70]"
+                style={{ border: '1px dashed #2A2A2E' }}
+              >
+                尚未設定封面圖
+              </div>
+            )}
+          </section>
+
           <section className={`${panelClass} space-y-4`}>
             <p className="text-xs font-semibold uppercase tracking-wider text-[#6B6B70]">發佈設定</p>
 
