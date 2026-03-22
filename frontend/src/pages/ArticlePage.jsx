@@ -54,10 +54,10 @@ export default function ArticlePage() {
         ) : article ? (
           <>
             {/* Article Header */}
-            <div className="w-full px-6 sm:px-14">
+            <div className="w-full">
 
               {/* Breadcrumb */}
-              <div className="flex items-center gap-1.5 py-4" style={{ fontSize: '12px', color: '#4A4A50', borderBottom: '1px solid #1F1F23' }}>
+              <div className="flex items-center gap-1.5" style={{ padding: '10px 50px', fontSize: '12px', color: '#4A4A50', borderBottom: '1px solid #1F1F23' }}>
                 <Link to="/articles" className="hover:text-[#8B8B90] transition-colors">文章</Link>
                 <span style={{ color: '#2A2A2E' }}>›</span>
                 {article.category && (
@@ -70,7 +70,7 @@ export default function ArticlePage() {
               </div>
 
               {/* Date + Category row */}
-              <div className="flex items-center justify-between gap-4" style={{ padding: '14px 0', borderBottom: '1px solid #1F1F23' }}>
+              <div className="flex items-center justify-between gap-4" style={{ padding: '20px 50px', borderBottom: '1px solid #1F1F23' }}>
                 {/* Date */}
                 <div className="flex items-baseline gap-2">
                   <span
@@ -99,7 +99,7 @@ export default function ArticlePage() {
               </div>
 
               {/* Title + Excerpt */}
-              <div style={{ padding: '28px 0 32px' }}>
+              <div style={{ padding: '10px 50px 60px' }}>
                 <h1
                   className="font-bold text-white leading-tight"
                   style={{ fontSize: 'clamp(20px, 2.5vw, 30px)', letterSpacing: '-0.01em' }}
