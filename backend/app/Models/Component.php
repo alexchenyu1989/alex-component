@@ -15,10 +15,12 @@ class Component extends Model
         'prompt',
         'category_id',
         'is_published',
+        'sort_order',
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
+        'sort_order'   => 'integer',
     ];
 
     public function category()

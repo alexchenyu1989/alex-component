@@ -30,6 +30,18 @@ export default function AdminComponentsPage() {
     fetchComponents()
   }
 
+  const handleSortChange = (id, value) => {
+    setComponents((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, sort_order: value } : c))
+    )
+  }
+
+  const handleSortBlur = async (id, value) => {
+    const num = parseInt(value, 10) || 0
+    await api.put(`/admin/components/${id}`, { sort_order: num })
+    fetchComponents()
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -91,17 +103,18 @@ export default function AdminComponentsPage() {
                 <th className="text-left text-xs font-semibold text-[#6B6B70] uppercase tracking-wider px-5 py-3.5">分類</th>
                 <th className="text-left text-xs font-semibold text-[#6B6B70] uppercase tracking-wider px-5 py-3.5">標籤</th>
                 <th className="text-left text-xs font-semibold text-[#6B6B70] uppercase tracking-wider px-5 py-3.5">狀態</th>
+                <th className="text-center text-xs font-semibold text-[#6B6B70] uppercase tracking-wider px-5 py-3.5">排序</th>
                 <th className="text-right text-xs font-semibold text-[#6B6B70] uppercase tracking-wider px-5 py-3.5">操作</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1F1F23]">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="text-center text-[#6B6B70] py-16 text-sm">載入中...</td>
+                  <td colSpan={6} className="text-center text-[#6B6B70] py-16 text-sm">載入中...</td>
                 </tr>
               ) : components.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center text-[#6B6B70] py-16 text-sm">尚無元件，點擊右上角新增</td>
+                  <td colSpan={6} className="text-center text-[#6B6B70] py-16 text-sm">尚無元件，點擊右上角新增</td>
                 </tr>
               ) : components.map((comp) => (
                 <tr key={comp.id} className="hover:bg-white/2 transition-colors">
@@ -130,6 +143,17 @@ export default function AdminComponentsPage() {
                     }`}>
                       {comp.is_published ? '已上架' : '草稿'}
                     </span>
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <input
+                      type="number"
+                      value={comp.sort_order ?? 0}
+                      onChange={(e) => handleSortChange(comp.id, e.target.value)}
+                      onBlur={(e) => handleSortBlur(comp.id, e.target.value)}
+                      className="w-16 rounded-md px-2 py-1 text-center text-sm font-mono text-white outline-none focus:border-[#FF5C00]/50"
+                      style={{ background: '#1A1A1D', border: '1px solid #2A2A2E' }}
+                      min={0}
+                    />
                   </td>
                   <td className="px-5 py-4">
                     <div className="flex justify-end gap-1">

@@ -17,6 +17,7 @@ export default function AdminComponentFormPage() {
     prompt: '',
     category_id: '',
     is_published: true,
+    sort_order: 0,
     tags: [],
   })
   const [loading, setLoading] = useState(false)
@@ -40,6 +41,7 @@ export default function AdminComponentFormPage() {
           prompt: component.prompt || '',
           category_id: component.category_id ? String(component.category_id) : '',
           is_published: component.is_published,
+          sort_order: component.sort_order ?? 0,
           tags: component.tags.map((tag) => tag.id),
         })
       })
@@ -222,6 +224,18 @@ export default function AdminComponentFormPage() {
                 />
               </button>
               <span className="text-sm text-[#8B8B90]">已發佈</span>
+            </div>
+
+            <div>
+              <label className={labelClass}>排序數字</label>
+              <p className="mb-1.5 text-xs text-[#6B6B70]">數字越大排越前面，預設為 0</p>
+              <input
+                type="number"
+                value={form.sort_order}
+                onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value, 10) || 0 })}
+                className={inputClass}
+                min={0}
+              />
             </div>
           </section>
 

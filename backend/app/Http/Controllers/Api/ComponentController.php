@@ -27,7 +27,7 @@ class ComponentController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        return response()->json($query->latest()->paginate(12));
+        return response()->json($query->orderBy('sort_order', 'desc')->latest()->paginate(12));
     }
 
     // 公開單筆（前台）
@@ -39,7 +39,9 @@ class ComponentController extends Controller
     // 管理後台列表
     public function adminIndex(Request $request)
     {
-        $query = Component::with(['category', 'tags'])->latest();
+        $query = Component::with(['category', 'tags'])
+            ->orderBy('sort_order', 'desc')
+            ->latest();
 
         if ($request->category) {
             $query->whereHas('category', fn($q) => $q->where('slug', $request->category));
@@ -59,6 +61,7 @@ class ComponentController extends Controller
             'description'      => 'nullable|string',
             'prompt'           => 'nullable|string',
             'is_published'     => 'boolean',
+            'sort_order'       => 'integer',
             'tags'             => 'array',
             'tags.*'           => 'exists:tags,id',
         ]);
@@ -72,6 +75,7 @@ class ComponentController extends Controller
             'prompt'           => $request->prompt,
             'category_id'      => $request->category_id,
             'is_published'     => $request->is_published ?? true,
+            'sort_order'       => $request->sort_order ?? 0,
         ]);
 
         if ($request->tags) {
@@ -92,6 +96,7 @@ class ComponentController extends Controller
             'description'      => 'nullable|string',
             'prompt'           => 'nullable|string',
             'is_published'     => 'boolean',
+            'sort_order'       => 'integer',
             'tags'             => 'array',
             'tags.*'           => 'exists:tags,id',
         ]);

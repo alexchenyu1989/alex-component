@@ -58,15 +58,15 @@ export default function HomePage() {
             i
           </span>
           <span
-            className="hidden sm:block text-white font-semibold text-xl tracking-normal"
-            style={{ fontFamily: 'DM Mono, monospace' }}
+            className="hidden sm:block text-white font-semibold tracking-normal"
+            style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px' }}
           >
             Alex Component Library
           </span>
         </Link>
 
-        {/* Search */}
-        <form onSubmit={handleSearch} className="relative flex-1 max-w-[280px] sm:mx-auto">
+        {/* Search - 暫時隱藏 */}
+        {/* <form onSubmit={handleSearch} className="relative flex-1 max-w-[280px] sm:mx-auto">
           <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: '#6B6B70' }} />
           <input
             value={searchInput}
@@ -80,7 +80,7 @@ export default function HomePage() {
               caretColor: '#FF5C00',
             }}
           />
-        </form>
+        </form> */}
 
         {/* Right */}
         <div className="flex items-center gap-2 shrink-0 ml-auto">
